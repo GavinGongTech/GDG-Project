@@ -59,16 +59,17 @@ def predict_from_features(features: Dict[str, float]) -> float:
     model = load_model()
 
     ordered_features = [
-        features["point_diff"],
-        features["h2h_winrate_before"],
-        features["weather_scaled"],
-        features["home_advantage"],
-        features["injuries"],
-        features["prev_point_diff"],
+        features["points_diff"],
+        features["mov"],
+        features["total_yards"],
+        features["turnovers"],
+        features["score_pct"],
+        features["turnover_pct"],
+        features["exp_pts_tot"],
     ]
 
     import numpy as np
 
     X = np.array(ordered_features).reshape(1, -1)
-    proba = model.predict_proba(X)[0, 1]  # P(win)
+    proba = model.predict_proba(X)[0, 1]  # P(winning season)
     return float(proba)

@@ -11,17 +11,21 @@ class TrainResponse(BaseModel):
 
 
 class PredictRequest(BaseModel):
-    point_diff: float
-    h2h_winrate_before: float
-    weather_scaled: float  # between -1 and 1
-    home_advantage: int    # 1 = home, 0 = away
-    injuries: float
-    prev_point_diff: float
+    points_diff: float
+    mov: float
+    total_yards: float
+    turnovers: float
+    score_pct: float
+    turnover_pct: float
+    exp_pts_tot: float
 
 
 class PredictResponse(BaseModel):
     win_probability: float
 
+@app.get("/")
+def root():
+    return {"message": "Win/Loss Prediction API is running. See /docs for usage."}
 
 @app.post("/train", response_model=TrainResponse)
 def train():
