@@ -10,26 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- AUTH GATE -->
-  <section id="auth" class="auth-wrapper">
-    <form id="login-form" class="auth-form">
-      <input name="email" type="email" placeholder="Email" required />
-      <input name="password" type="password" placeholder="Password" required />
-      <button type="submit">Log in</button>
-    </form>
-    <p id="auth-error" class="auth-error"></p>
-  </section>
 
-  <!-- MAIN APP (hidden until logged in) -->
-  <div id="app" style="display: none;">
-    <header class="topbar">
-      <div class="logo">Wagerly</div>
-      <nav>
-        <a href="#about">About</a>
-        <a href="#play">Get Started</a>
-        <a href="#contact" class="btn-nav">Contact</a>
-      </nav>
-    </header>
 
     <main>
       <section class="hero" id="home">
@@ -40,7 +21,7 @@
             Reinvented sports analytics platform that provides real-time insights and predictions to enhance your sports betting experience.
           </p>
           <div class="hero-actions">
-            <a href="#play" class="btn-primary">Get Started</a>
+            <a href="login_page.html" class="btn-primary">Get Started</a>
             <a href="#contact" class="btn-secondary">Get in touch</a>
           </div>
           <div class="hero-card">
@@ -89,6 +70,7 @@
       </section>
     </main>
 
+
     <footer class="footer">
       <p>© <span id="year"></span> GDG Collab Group.</p>
     </footer>
@@ -96,5 +78,10 @@
 
   <!-- Main JS (Supabase + auth logic) -->
   <script type="module" src="./landing_page.js"></script>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
 </body>
 </html>
