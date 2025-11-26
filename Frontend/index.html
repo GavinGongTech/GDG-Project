@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WAGERLY - NFL Predictor</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="topbar">
+    <div class="logo">Wagerly</div>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#contact" class="btn-nav">Contact</a>
+    </nav>
+  </header>
+
+  <main class="predict-main">
+    <h1 class="predict-title">SELECT YOUR <span class="accent">MATCHUP</span></h1>
+    <p class="predict-tagline">NFL Outcome Predictor</p>
+
+    <div class="arena-container">
+      <!-- Left Fighter (Team 1) -->
+      <div class="fighter-side fighter-left">
+        <div class="fighter-label">TEAM 1</div>
+        <div class="fighter-portrait" id="fighter1">
+          <span class="empty-slot">?</span>
+        </div>
+        <div class="fighter-name" id="fighter1-name">SELECT</div>
+      </div>
+
+      <!-- Center Grid -->
+      <div class="team-grid-wrapper">
+        <div class="team-grid" id="teamGrid">
+          <!-- Teams will be inserted by JS -->
+        </div>
+        <p class="select-hint" id="selectHint">Click a team to select for <span class="accent">TEAM 1</span></p>
+      </div>
+
+      <!-- Right Fighter (Team 2) -->
+      <div class="fighter-side fighter-right">
+        <div class="fighter-label">TEAM 2</div>
+        <div class="fighter-portrait" id="fighter2">
+          <span class="empty-slot">?</span>
+        </div>
+        <div class="fighter-name" id="fighter2-name">SELECT</div>
+      </div>
+    </div>
+
+    <div class="vs-divider">
+      <span class="vs-text">VS</span>
+    </div>
+
+    <button class="predict-btn" id="predictBtn">
+      <span id="btnText">PREDICT WINNER</span>
+      <span id="btnLoader" class="loader" style="display: none;"></span>
+    </button>
+
+    <!-- Result -->
+    <div class="result-container" id="result" style="display: none;">
+      <h2 class="result-title">PREDICTED WINNER</h2>
+      <div class="winner-logo" id="winner-logo"></div>
+      <div class="winner-name" id="winner-name"></div>
+      <div class="win-probability" id="win-probability"></div>
+      
+      <!-- Stats Breakdown -->
+      <div class="stats-breakdown" id="stats-breakdown">
+        <h3 class="stats-title">📊 BEHIND THE PREDICTION</h3>
+        <div class="stats-comparison">
+          <div class="stats-column" id="stats-team1">
+            <h4 id="stats-team1-name">Team 1</h4>
+            <div class="stat-list" id="stat-list-1"></div>
+          </div>
+          <div class="stats-column stats-labels">
+            <h4>Metric</h4>
+            <div class="stat-row"><span>Power Rating</span></div>
+            <div class="stat-row"><span>Point Diff</span></div>
+            <div class="stat-row"><span>Margin of Victory</span></div>
+            <div class="stat-row"><span>Total Yards</span></div>
+            <div class="stat-row"><span>Turnovers</span></div>
+            <div class="stat-row"><span>Score %</span></div>
+            <div class="stat-row"><span>Turnover %</span></div>
+            <div class="stat-row"><span>Expected Pts</span></div>
+          </div>
+          <div class="stats-column" id="stats-team2">
+            <h4 id="stats-team2-name">Team 2</h4>
+            <div class="stat-list" id="stat-list-2"></div>
+          </div>
+        </div>
+        <div class="power-diff-container" id="power-diff-container">
+          <span class="power-diff-label">Power Advantage:</span>
+          <span class="power-diff-value" id="power-diff-value"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- About Section -->
+    <section id="about" class="section section-centered">
+      <h2>About Wagerly</h2>
+      <p>
+        WAGERLY uses advanced analytics and machine learning to predict NFL game outcomes. 
+        Select two teams above and see who our model thinks will win!
+      </p>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section section-centered contact-section">
+      <h2>Contact</h2>
+      <p>Want to learn more about Wagerly?</p>
+      <div class="contact-box">
+        <p><strong>Email:</strong> <a href="mailto:rg4929@nyu.edu">GDG AI/ML Group</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> GDG Collab Group.</p>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const API_URL = "http://localhost:8000";
+
+    const teams = [
+      { abbr: 'ARI', name: 'Arizona Cardinals' },
+      { abbr: 'ATL', name: 'Atlanta Falcons' },
+      { abbr: 'BAL', name: 'Baltimore Ravens' },
+      { abbr: 'BUF', name: 'Buffalo Bills' },
+      { abbr: 'CAR', name: 'Carolina Panthers' },
+      { abbr: 'CHI', name: 'Chicago Bears' },
+      { abbr: 'CIN', name: 'Cincinnati Bengals' },
+      { abbr: 'CLE', name: 'Cleveland Browns' },
+      { abbr: 'DAL', name: 'Dallas Cowboys' },
+      { abbr: 'DEN', name: 'Denver Broncos' },
+      { abbr: 'DET', name: 'Detroit Lions' },
+      { abbr: 'GB', name: 'Green Bay Packers' },
+      { abbr: 'HOU', name: 'Houston Texans' },
+      { abbr: 'IND', name: 'Indianapolis Colts' },
+      { abbr: 'JAX', name: 'Jacksonville Jaguars' },
+      { abbr: 'KC', name: 'Kansas City Chiefs' },
+      { abbr: 'LV', name: 'Las Vegas Raiders' },
+      { abbr: 'LAC', name: 'Los Angeles Chargers' },
+      { abbr: 'LAR', name: 'Los Angeles Rams' },
+      { abbr: 'MIA', name: 'Miami Dolphins' },
+      { abbr: 'MIN', name: 'Minnesota Vikings' },
+      { abbr: 'NE', name: 'New England Patriots' },
+      { abbr: 'NO', name: 'New Orleans Saints' },
+      { abbr: 'NYG', name: 'New York Giants' },
+      { abbr: 'NYJ', name: 'New York Jets' },
+      { abbr: 'PHI', name: 'Philadelphia Eagles' },
+      { abbr: 'PIT', name: 'Pittsburgh Steelers' },
+      { abbr: 'SF', name: 'San Francisco 49ers' },
+      { abbr: 'SEA', name: 'Seattle Seahawks' },
+      { abbr: 'TB', name: 'Tampa Bay Buccaneers' },
+      { abbr: 'TEN', name: 'Tennessee Titans' },
+      { abbr: 'WAS', name: 'Washington Commanders' }
+    ];
+
+    let selectedTeam1 = null;
+    let selectedTeam2 = null;
+    let selectingFor = 1;
+
+    const grid = document.getElementById('teamGrid');
+    const hint = document.getElementById('selectHint');
+
+    // Build team grid
+    teams.forEach(team => {
+      const card = document.createElement('div');
+      card.className = 'team-card';
+      card.dataset.abbr = team.abbr;
+      card.dataset.name = team.name;
+      card.innerHTML = `
+        <img src="https://a.espncdn.com/i/teamlogos/nfl/500/${team.abbr.toLowerCase()}.png" alt="${team.name}" />
+      `;
+      card.addEventListener('click', () => selectTeam(team, card));
+      grid.appendChild(card);
+    });
+
+    function selectTeam(team, card) {
+      // Check if clicking on already selected team (deselect)
+      if (selectedTeam1?.abbr === team.abbr) {
+        selectedTeam1 = null;
+        card.classList.remove('selected-1');
+        document.getElementById('fighter1').innerHTML = `<span class="empty-slot">?</span>`;
+        document.getElementById('fighter1-name').textContent = 'SELECT';
+        selectingFor = 1;
+        hint.innerHTML = 'Click a team to select for <span class="accent">TEAM 1</span>';
+        hideResult();
+        return;
+      }
+      
+      if (selectedTeam2?.abbr === team.abbr) {
+        selectedTeam2 = null;
+        card.classList.remove('selected-2');
+        document.getElementById('fighter2').innerHTML = `<span class="empty-slot">?</span>`;
+        document.getElementById('fighter2-name').textContent = 'SELECT';
+        selectingFor = 2;
+        hint.innerHTML = 'Click a team to select for <span class="accent">TEAM 2</span>';
+        hideResult();
+        return;
+      }
+
+      // Remove previous selection highlight for current selecting slot
+      document.querySelectorAll('.team-card').forEach(c => {
+        if (selectingFor === 1) {
+          c.classList.remove('selected-1');
+        } else {
+          c.classList.remove('selected-2');
+        }
+      });
+
+      if (selectingFor === 1) {
+        selectedTeam1 = team;
+        card.classList.add('selected-1');
+        
+        document.getElementById('fighter1').innerHTML = `
+          <img src="https://a.espncdn.com/i/teamlogos/nfl/500/${team.abbr.toLowerCase()}.png" alt="${team.name}" />
+        `;
+        document.getElementById('fighter1-name').textContent = team.name;
+        
+        if (!selectedTeam2) {
+          selectingFor = 2;
+          hint.innerHTML = 'Click a team to select for <span class="accent">TEAM 2</span>';
+        }
+      } else {
+        selectedTeam2 = team;
+        card.classList.add('selected-2');
+        
+        document.getElementById('fighter2').innerHTML = `
+          <img src="https://a.espncdn.com/i/teamlogos/nfl/500/${team.abbr.toLowerCase()}.png" alt="${team.name}" />
+        `;
+        document.getElementById('fighter2-name').textContent = team.name;
+        
+        if (!selectedTeam1) {
+          selectingFor = 1;
+          hint.innerHTML = 'Click a team to select for <span class="accent">TEAM 1</span>';
+        }
+      }
+
+      hideResult();
+    }
+
+    function hideResult() {
+      document.getElementById('result').style.display = 'none';
+      document.getElementById('result').classList.remove('show');
+    }
+
+    function showLoading(show) {
+      document.getElementById('btnText').style.display = show ? 'none' : 'inline';
+      document.getElementById('btnLoader').style.display = show ? 'inline-block' : 'none';
+      document.getElementById('predictBtn').disabled = show;
+    }
+
+    // Predict winner - calls FastAPI backend
+    document.getElementById('predictBtn').addEventListener('click', async function() {
+      if (!selectedTeam1 || !selectedTeam2) {
+        alert('Please select both teams!');
+        return;
+      }
+
+      showLoading(true);
+
+      try {
+        const response = await fetch(`${API_URL}/predict-matchup`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            team1: selectedTeam1.abbr,
+            team2: selectedTeam2.abbr
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error('Prediction failed');
+        }
+
+        const data = await response.json();
+        
+        // Show result with animation
+        const resultDiv = document.getElementById('result');
+        const winnerLogo = document.getElementById('winner-logo');
+        const winnerName = document.getElementById('winner-name');
+        const winProbability = document.getElementById('win-probability');
+        
+        resultDiv.style.display = 'block';
+        resultDiv.classList.remove('show');
+        
+        setTimeout(() => {
+          winnerLogo.innerHTML = `<img src="https://a.espncdn.com/i/teamlogos/nfl/500/${data.winner.toLowerCase()}.png" alt="${data.winner_name}" />`;
+          winnerName.textContent = data.winner_name;
+          winProbability.textContent = `${data.win_probability}% Win Probability`;
+          
+          // Populate stats
+          document.getElementById('stats-team1-name').textContent = data.team1_name;
+          document.getElementById('stats-team2-name').textContent = data.team2_name;
+          
+          const stats1 = data.team1_stats;
+          const stats2 = data.team2_stats;
+          
+          document.getElementById('stat-list-1').innerHTML = `
+            <div class="stat-row ${stats1.power > stats2.power ? 'winner' : ''}">${stats1.power}</div>
+            <div class="stat-row ${stats1.points_diff > stats2.points_diff ? 'winner' : ''}">${stats1.points_diff > 0 ? '+' : ''}${stats1.points_diff}</div>
+            <div class="stat-row ${stats1.mov > stats2.mov ? 'winner' : ''}">${stats1.mov > 0 ? '+' : ''}${stats1.mov}</div>
+            <div class="stat-row ${stats1.total_yards > stats2.total_yards ? 'winner' : ''}">${stats1.total_yards.toLocaleString()}</div>
+            <div class="stat-row ${stats1.turnovers < stats2.turnovers ? 'winner' : ''}">${stats1.turnovers}</div>
+            <div class="stat-row ${stats1.score_pct > stats2.score_pct ? 'winner' : ''}">${stats1.score_pct}%</div>
+            <div class="stat-row ${stats1.turnover_pct < stats2.turnover_pct ? 'winner' : ''}">${stats1.turnover_pct}%</div>
+            <div class="stat-row ${stats1.exp_pts_tot > stats2.exp_pts_tot ? 'winner' : ''}">${stats1.exp_pts_tot}</div>
+          `;
+          
+          document.getElementById('stat-list-2').innerHTML = `
+            <div class="stat-row ${stats2.power > stats1.power ? 'winner' : ''}">${stats2.power}</div>
+            <div class="stat-row ${stats2.points_diff > stats1.points_diff ? 'winner' : ''}">${stats2.points_diff > 0 ? '+' : ''}${stats2.points_diff}</div>
+            <div class="stat-row ${stats2.mov > stats1.mov ? 'winner' : ''}">${stats2.mov > 0 ? '+' : ''}${stats2.mov}</div>
+            <div class="stat-row ${stats2.total_yards > stats1.total_yards ? 'winner' : ''}">${stats2.total_yards.toLocaleString()}</div>
+            <div class="stat-row ${stats2.turnovers < stats1.turnovers ? 'winner' : ''}">${stats2.turnovers}</div>
+            <div class="stat-row ${stats2.score_pct > stats1.score_pct ? 'winner' : ''}">${stats2.score_pct}%</div>
+            <div class="stat-row ${stats2.turnover_pct < stats1.turnover_pct ? 'winner' : ''}">${stats2.turnover_pct}%</div>
+            <div class="stat-row ${stats2.exp_pts_tot > stats1.exp_pts_tot ? 'winner' : ''}">${stats2.exp_pts_tot}</div>
+          `;
+          
+          // Power diff
+          const powerDiffEl = document.getElementById('power-diff-value');
+          const diff = data.power_diff;
+          if (diff > 0) {
+            powerDiffEl.textContent = `${data.team1_name} +${diff}`;
+            powerDiffEl.className = 'power-diff-value positive';
+          } else if (diff < 0) {
+            powerDiffEl.textContent = `${data.team2_name} +${Math.abs(diff)}`;
+            powerDiffEl.className = 'power-diff-value positive';
+          } else {
+            powerDiffEl.textContent = 'Even matchup';
+            powerDiffEl.className = 'power-diff-value';
+          }
+          
+          resultDiv.classList.add('show');
+        }, 300);
+
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Could not connect to prediction server. Make sure the backend is running on localhost:8000');
+      } finally {
+        showLoading(false);
+      }
+    });
+  </script>
+</body>
+</html>
+
