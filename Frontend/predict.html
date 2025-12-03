@@ -60,6 +60,49 @@
     <div class="result-container" id="result" style="display: none;">
       <h2 class="result-title">WINNER</h2>
       <div class="winner-name" id="winner-name"></div>
+      
+      <!-- Detailed Breakdown -->
+      <div class="breakdown-container" id="breakdown" style="display: none;">
+        <div class="breakdown-header">
+          <h3>Prediction Breakdown</h3>
+          <button class="toggle-breakdown" id="toggleBreakdown">Show Details</button>
+        </div>
+        
+        <div class="breakdown-content" id="breakdownContent" style="display: none;">
+          <!-- Probabilities -->
+          <div class="probabilities-section">
+            <h4>Win Probabilities</h4>
+            <div class="prob-bars">
+              <div class="prob-bar-wrapper">
+                <div class="prob-label" id="team1-label"></div>
+                <div class="prob-bar">
+                  <div class="prob-fill" id="team1-prob-fill" style="width: 0%"></div>
+                  <span class="prob-value" id="team1-prob-value"></span>
+                </div>
+              </div>
+              <div class="prob-bar-wrapper">
+                <div class="prob-label" id="team2-label"></div>
+                <div class="prob-bar">
+                  <div class="prob-fill" id="team2-prob-fill" style="width: 0%"></div>
+                  <span class="prob-value" id="team2-prob-value"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stats Comparison -->
+          <div class="stats-comparison-section">
+            <h4>Team Statistics Comparison</h4>
+            <div class="stats-grid" id="statsGrid"></div>
+          </div>
+
+          <!-- Model Features -->
+          <div class="features-section">
+            <h4>Model Input Features</h4>
+            <div class="features-list" id="featuresList"></div>
+          </div>
+        </div>
+      </div>
     </div>
   </main>
 
@@ -197,27 +240,177 @@
       // Hide result when changing teams
       document.getElementById('result').style.display = 'none';
       document.getElementById('result').classList.remove('show');
+      document.getElementById('breakdown').style.display = 'none';
     }
 
-    // Predict winner (hardcoded to select Team 1 / left team)
-    document.getElementById('predictBtn').addEventListener('click', function() {
+    // Toggle breakdown visibility - set up event listener when DOM is ready
+    setTimeout(() => {
+      const toggleBtn = document.getElementById('toggleBreakdown');
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', function() {
+          const content = document.getElementById('breakdownContent');
+          const isVisible = content.style.display !== 'none' && content.style.display !== '';
+          content.style.display = isVisible ? 'none' : 'block';
+          this.textContent = isVisible ? 'Show Details' : 'Hide Details';
+        });
+      }
+    }, 100);
+
+    function displayBreakdown(data, team1, team2) {
+      const breakdown = document.getElementById('breakdown');
+      const breakdownContent = document.getElementById('breakdownContent');
+      const toggleBtn = document.getElementById('toggleBreakdown');
+      
+      breakdown.style.display = 'block';
+      
+      // Hide content initially, show button as "Show Details"
+      breakdownContent.style.display = 'none';
+      if (toggleBtn) toggleBtn.textContent = 'Show Details';
+
+      // Display probabilities
+      const team1Prob = (data.team1_win_probability * 100).toFixed(1);
+      const team2Prob = (data.team2_win_probability * 100).toFixed(1);
+
+      document.getElementById('team1-label').textContent = team1.name;
+      document.getElementById('team2-label').textContent = team2.name;
+      document.getElementById('team1-prob-value').textContent = team1Prob + '%';
+      document.getElementById('team2-prob-value').textContent = team2Prob + '%';
+      
+      setTimeout(() => {
+        document.getElementById('team1-prob-fill').style.width = team1Prob + '%';
+        document.getElementById('team2-prob-fill').style.width = team2Prob + '%';
+      }, 100);
+
+      // Display stats comparison
+      const statsGrid = document.getElementById('statsGrid');
+      statsGrid.innerHTML = '';
+      
+      const statLabels = {
+        points_diff: 'Point Differential',
+        mov: 'Margin of Victory',
+        total_yards: 'Total Yards',
+        turnovers: 'Turnovers',
+        score_pct: 'Score %',
+        turnover_pct: 'Turnover %',
+        exp_pts_tot: 'Expected Points'
+      };
+
+      const statFormatters = {
+        points_diff: (v) => v.toFixed(1),
+        mov: (v) => v.toFixed(2),
+        total_yards: (v) => Math.round(v).toLocaleString(),
+        turnovers: (v) => v.toFixed(1),
+        score_pct: (v) => v.toFixed(1) + '%',
+        turnover_pct: (v) => v.toFixed(1) + '%',
+        exp_pts_tot: (v) => v.toFixed(2)
+      };
+
+      Object.keys(data.feature_comparisons).forEach(statKey => {
+        const comp = data.feature_comparisons[statKey];
+        const isBetter = (comp.advantage === team1.abbr && statKey !== 'turnovers' && statKey !== 'turnover_pct') ||
+                        (comp.advantage === team2.abbr && (statKey === 'turnovers' || statKey === 'turnover_pct'));
+        
+        const statRow = document.createElement('div');
+        statRow.className = 'stat-row';
+        statRow.innerHTML = `
+          <div class="stat-name">${statLabels[statKey] || statKey}</div>
+          <div class="stat-values">
+            <div class="stat-value ${comp.advantage === team1.abbr ? 'advantage' : ''}">
+              ${statFormatters[statKey] ? statFormatters[statKey](comp.team1) : comp.team1.toFixed(2)}
+            </div>
+            <div class="stat-vs">vs</div>
+            <div class="stat-value ${comp.advantage === team2.abbr ? 'advantage' : ''}">
+              ${statFormatters[statKey] ? statFormatters[statKey](comp.team2) : comp.team2.toFixed(2)}
+            </div>
+          </div>
+        `;
+        statsGrid.appendChild(statRow);
+      });
+
+      // Display model features
+      const featuresList = document.getElementById('featuresList');
+      featuresList.innerHTML = '';
+      
+      Object.keys(data.matchup_features).forEach(featureKey => {
+        const featureValue = data.matchup_features[featureKey];
+        const featureItem = document.createElement('div');
+        featureItem.className = 'feature-item';
+        featureItem.innerHTML = `
+          <div class="feature-name">${statLabels[featureKey] || featureKey}</div>
+          <div class="feature-value ${featureValue > 0 ? 'positive' : featureValue < 0 ? 'negative' : 'neutral'}">
+            ${featureValue > 0 ? '+' : ''}${featureValue.toFixed(2)}
+            <span class="feature-desc">(${featureValue > 0 ? 'Team 1 advantage' : featureValue < 0 ? 'Team 2 advantage' : 'Neutral'})</span>
+          </div>
+        `;
+        featuresList.appendChild(featureItem);
+      });
+    }
+
+    // Predict winner by calling backend API
+    document.getElementById('predictBtn').addEventListener('click', async function() {
       if (!selectedTeam1 || !selectedTeam2) {
         alert('Please select both teams!');
         return;
       }
 
-      // Show result with animation
+      const predictBtn = document.getElementById('predictBtn');
       const resultDiv = document.getElementById('result');
       const winnerName = document.getElementById('winner-name');
       
-      resultDiv.style.display = 'block';
+      // Disable button and show loading state
+      predictBtn.disabled = true;
+      predictBtn.textContent = 'PREDICTING...';
+      resultDiv.style.display = 'none';
       resultDiv.classList.remove('show');
       
-      // Dramatic delay then reveal winner (always team 1 - the left team)
-      setTimeout(() => {
-        winnerName.textContent = selectedTeam1.name;
-        resultDiv.classList.add('show');
-      }, 500);
+      try {
+        // Call backend API
+        const response = await fetch('http://localhost:8000/predict-matchup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            team1: selectedTeam1.abbr,
+            team2: selectedTeam2.abbr
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error(`API error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        
+        // Find the winner's full name
+        const winnerAbbr = data.winner;
+        const winner = winnerAbbr === selectedTeam1.abbr ? selectedTeam1 : selectedTeam2;
+        
+        // Show result with animation
+        resultDiv.style.display = 'block';
+        resultDiv.classList.remove('show');
+        
+        // Dramatic delay then reveal winner
+        setTimeout(() => {
+          winnerName.textContent = winner.name;
+          resultDiv.classList.add('show');
+          
+          // Display detailed breakdown
+          displayBreakdown(data, selectedTeam1, selectedTeam2);
+          
+          // Re-enable button
+          predictBtn.disabled = false;
+          predictBtn.textContent = 'PREDICT WINNER';
+        }, 500);
+        
+      } catch (error) {
+        console.error('Prediction error:', error);
+        alert('Error predicting winner. Please try again. Make sure the backend is running.');
+        
+        // Re-enable button
+        predictBtn.disabled = false;
+        predictBtn.textContent = 'PREDICT WINNER';
+      }
     });
   </script>
 </body>
