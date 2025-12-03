@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WAGERLY</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Global topbar (visible on both auth + app) -->
+  <header class="topbar">
+    <div class="logo">Wagerly</div>
+    <nav>
+      <a href="#home">About</a>
+      <a href="#login">Get Started</a>
+      <a href="#contact" class="btn-nav">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- AUTH GATE (Supabase) -->
+    <section id="auth" class="auth-wrapper">
+      <div class="auth-card">
+        <p class="eyebrow">Sports Analytics</p>
+        <h1 class="auth-title">Log in to <span class="accent">Wagerly</span></h1>
+        <p class="auth-subtitle">
+          Access your analytics dashboard with your registered email and password.
+        </p>
+
+        <form id="login-form" class="auth-form">
+          <div class="auth-field">
+            <label for="auth-email">Email</label>
+            <input
+              id="auth-email"
+              name="email"
+              type="email"
+              placeholder="you@example.com"
+              required
+            />
+          </div>
+
+          <div class="auth-field">
+            <label for="auth-password">Password</label>
+            <input
+              id="auth-password"
+              name="password"
+              type="password"
+              placeholder="••••••••"
+              required
+            />
+          </div>
+
+          <button type="submit" class="btn-primary btn-full">Log in</button>
+        </form>
+
+        <p id="auth-error" class="auth-error"></p>
+
+        <div class="guest-option">
+          <p class="guest-divider">or</p>
+          <a href="predict.html" class="btn-secondary btn-full">Continue as Guest</a>
+        </div>
+
+        <p class="auth-hint">
+          Don't have access yet? Reach out to the&nbsp;
+          <a href="#contact">GDG AI/ML Group</a>.
+        </p>
+      </div>
+    </section>
+
+    <!-- MAIN APP (hidden until logged in by Supabase JS) -->
+    <div id="app" style="display: none;">
+      <!-- You can keep or remove this inner header; leaving as-is for now -->
+      <header class="topbar">
+        <div class="logo">Wagerly</div>
+        <nav>
+          <a href="#about">About</a>
+          <a href="#play">Get Started</a>
+          <a href="#contact" class="btn-nav">Contact</a>
+        </nav>
+      </header>
+
+      <section id="login" class="section auth-section">
+        <h2>Login</h2>
+        <form class="login-form" action="/login" method="POST">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" required />
+
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required />
+
+          <button type="submit" class="btn-primary">Login</button>
+        </form>
+      </section>
+
+      <section id="signup" class="section auth-section">
+        <h2>Sign Up</h2>
+        <form class="signup-form" action="/signup" method="POST">
+          <label for="new-username">Username</label>
+          <input type="text" id="new-username" name="username" required />
+
+          <label for="new-password">Password</label>
+          <input type="password" id="new-password" name="password" required />
+
+          <button type="submit" class="btn-primary">Sign Up</button>
+        </form>
+      </section>
+
+      <section id="contact" class="section contact-section">
+        <h2>Contact</h2>
+        <p>If you want to inquire about Wagerly and advanced sports betting analytics.</p>
+        <div class="contact-box">
+          <p><strong>Email:</strong> <a href="mailto:rg4929@nyu.edu">GDG AI/ML Group</a></p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> GDG Collab Group.</p>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
