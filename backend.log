@@ -1632,3 +1632,335 @@ LogisticRegression does not accept missing values encoded as NaN natively. For s
 2025-12-03 00:32:32,501 - Backend.app - INFO - PREDICTION COMPLETE
 2025-12-03 00:32:32,501 - Backend.app - INFO - Result: {'winner': 'LAR', 'team1_win_probability': 0.9982001685592474, 'team2_win_probability': 0.001799831440752575, 'team1_stats': {'points_diff': 33.25, 'mov': 5.45, 'total_yards': 5744.625, 'turnovers': 22.75, 'score_pct': 38.2625, 'turnover_pct': 11.725, 'exp_pts_tot': 48.491249999999994}, 'team2_stats': {'points_diff': -22.61904761904762, 'mov': -2.3000000000000003, 'total_yards': 5270.0952380952385, 'turnovers': 24.142857142857142, 'score_pct': 32.49999999999999, 'turnover_pct': 12.171428571428569, 'exp_pts_tot': -52.07380952380952}, 'matchup_features': {'points_diff': 55.86904761904762, 'mov': 7.75, 'total_yards': 474.5297619047615, 'turnovers': 1.3928571428571423, 'score_pct': 5.76250000000001, 'turnover_pct': 0.4464285714285694, 'exp_pts_tot': 100.56505952380951}, 'feature_comparisons': {'points_diff': {'team1': 33.25, 'team2': -22.61904761904762, 'advantage': 'LAR'}, 'mov': {'team1': 5.45, 'team2': -2.3000000000000003, 'advantage': 'LAR'}, 'total_yards': {'team1': 5744.625, 'team2': 5270.0952380952385, 'advantage': 'LAR'}, 'turnovers': {'team1': 22.75, 'team2': 24.142857142857142, 'advantage': 'LAR'}, 'score_pct': {'team1': 38.2625, 'team2': 32.49999999999999, 'advantage': 'LAR'}, 'turnover_pct': {'team1': 11.725, 'team2': 12.171428571428569, 'advantage': 'LAR'}, 'exp_pts_tot': {'team1': 48.491249999999994, 'team2': -52.07380952380952, 'advantage': 'LAR'}}}
 2025-12-03 00:32:32,502 - Backend.app - INFO - ==================================================
+2025-12-03 00:38:14,073 - Backend.app - INFO - ==================================================
+2025-12-03 00:38:14,073 - Backend.app - INFO - STARTING BACKEND APPLICATION
+2025-12-03 00:38:14,073 - Backend.app - INFO - ==================================================
+2025-12-03 00:38:14,073 - Backend.app - INFO - CORS middleware configured - allowing localhost:3000, localhost:3001, and any localhost port via regex
+2025-12-03 00:38:43,882 - Backend.app - INFO - ==================================================
+2025-12-03 00:38:43,882 - Backend.app - INFO - STARTING BACKEND APPLICATION
+2025-12-03 00:38:43,882 - Backend.app - INFO - ==================================================
+2025-12-03 00:38:43,883 - Backend.app - INFO - CORS middleware configured - allowing localhost:3000, localhost:3001, and any localhost port via regex
+2025-12-03 00:42:59,466 - Backend.app - INFO - ==================================================
+2025-12-03 00:42:59,466 - Backend.app - INFO - POST /predict-matchup - Matchup prediction requested
+2025-12-03 00:42:59,466 - Backend.app - INFO - Team 1: LAR
+2025-12-03 00:42:59,466 - Backend.app - INFO - Team 2: NE
+2025-12-03 00:42:59,466 - Backend.app - INFO - ==================================================
+2025-12-03 00:42:59,466 - Backend.app - INFO - Fetching stats for Team 1...
+2025-12-03 00:42:59,466 - Backend.app - INFO - [get_team_stats_from_data] Looking up stats for team: LAR
+2025-12-03 00:42:59,466 - Backend.app - DEBUG - Loading raw data...
+2025-12-03 00:42:59,466 - Backend.data_utils - INFO - [load_raw_data] Loading data from /Users/maheenrassell/GDG-Project/Backend/archive.zip
+2025-12-03 00:42:59,470 - Backend.data_utils - INFO - Archive file exists: /Users/maheenrassell/GDG-Project/Backend/archive.zip
+2025-12-03 00:42:59,472 - Backend.data_utils - INFO - Found 1 CSV file(s) in archive: ['team_stats_2003_2023.csv']
+2025-12-03 00:42:59,472 - Backend.data_utils - INFO - Loading CSV: team_stats_2003_2023.csv
+2025-12-03 00:42:59,498 - Backend.data_utils - INFO - Data loaded successfully. Shape: (672, 35)
+2025-12-03 00:42:59,499 - Backend.data_utils - DEBUG - Columns: ['year', 'team', 'wins', 'losses', 'win_loss_perc', 'points', 'points_opp', 'points_diff', 'mov', 'g', 'total_yards', 'plays_offense', 'yds_per_play_offense', 'turnovers', 'fumbles_lost', 'first_down', 'pass_cmp', 'pass_att', 'pass_yds', 'pass_td', 'pass_int', 'pass_net_yds_per_att', 'pass_fd', 'rush_att', 'rush_yds', 'rush_td', 'rush_yds_per_att', 'rush_fd', 'penalties', 'penalties_yds', 'pen_fd', 'score_pct', 'turnover_pct', 'exp_pts_tot', 'ties']
+2025-12-03 00:42:59,515 - Backend.data_utils - DEBUG - First few rows:
+   year                  team  wins  ...  turnover_pct  exp_pts_tot  ties
+0  2003  New England Patriots    14  ...          11.3      -136.51   NaN
+1  2003        Miami Dolphins    10  ...          17.2      -177.92   NaN
+2  2003         Buffalo Bills     6  ...          17.6      -230.07   NaN
+3  2003         New York Jets     6  ...          11.8      -107.89   NaN
+4  2003      Baltimore Ravens    10  ...          16.6      -220.50   NaN
+
+[5 rows x 35 columns]
+2025-12-03 00:42:59,516 - Backend.app - INFO - Data loaded successfully. Shape: (672, 35)
+2025-12-03 00:42:59,516 - Backend.app - DEBUG - Available columns: ['year', 'team', 'wins', 'losses', 'win_loss_perc', 'points', 'points_opp', 'points_diff', 'mov', 'g']...
+2025-12-03 00:42:59,516 - Backend.app - DEBUG - Found potential team columns: ['team']
+2025-12-03 00:42:59,516 - Backend.app - DEBUG - Attempting to match team abbreviation 'LAR' in columns: ['team']
+2025-12-03 00:42:59,516 - Backend.app - DEBUG - Possible team name matches for LAR: ['Los Angeles Rams', 'St. Louis Rams', 'Rams', 'LAR']
+2025-12-03 00:42:59,516 - Backend.app - INFO - Found exact match for 'LAR' as 'Los Angeles Rams' in column team: 8 rows
+2025-12-03 00:42:59,517 - Backend.app - INFO - Team LAR stats (averaged over 8 seasons): {'points_diff': 33.25, 'mov': 5.45, 'total_yards': 5744.625, 'turnovers': 22.75, 'score_pct': 38.2625, 'turnover_pct': 11.725, 'exp_pts_tot': 48.491249999999994}
+2025-12-03 00:42:59,517 - Backend.app - INFO - Team 1 stats retrieved: {'points_diff': 33.25, 'mov': 5.45, 'total_yards': 5744.625, 'turnovers': 22.75, 'score_pct': 38.2625, 'turnover_pct': 11.725, 'exp_pts_tot': 48.491249999999994}
+2025-12-03 00:42:59,517 - Backend.app - INFO - Fetching stats for Team 2...
+2025-12-03 00:42:59,517 - Backend.app - INFO - [get_team_stats_from_data] Looking up stats for team: NE
+2025-12-03 00:42:59,517 - Backend.app - DEBUG - Loading raw data...
+2025-12-03 00:42:59,517 - Backend.data_utils - INFO - [load_raw_data] Loading data from /Users/maheenrassell/GDG-Project/Backend/archive.zip
+2025-12-03 00:42:59,517 - Backend.data_utils - INFO - Archive file exists: /Users/maheenrassell/GDG-Project/Backend/archive.zip
+2025-12-03 00:42:59,518 - Backend.data_utils - INFO - Found 1 CSV file(s) in archive: ['team_stats_2003_2023.csv']
+2025-12-03 00:42:59,518 - Backend.data_utils - INFO - Loading CSV: team_stats_2003_2023.csv
+2025-12-03 00:42:59,520 - Backend.data_utils - INFO - Data loaded successfully. Shape: (672, 35)
+2025-12-03 00:42:59,520 - Backend.data_utils - DEBUG - Columns: ['year', 'team', 'wins', 'losses', 'win_loss_perc', 'points', 'points_opp', 'points_diff', 'mov', 'g', 'total_yards', 'plays_offense', 'yds_per_play_offense', 'turnovers', 'fumbles_lost', 'first_down', 'pass_cmp', 'pass_att', 'pass_yds', 'pass_td', 'pass_int', 'pass_net_yds_per_att', 'pass_fd', 'rush_att', 'rush_yds', 'rush_td', 'rush_yds_per_att', 'rush_fd', 'penalties', 'penalties_yds', 'pen_fd', 'score_pct', 'turnover_pct', 'exp_pts_tot', 'ties']
+2025-12-03 00:42:59,527 - Backend.data_utils - DEBUG - First few rows:
+   year                  team  wins  ...  turnover_pct  exp_pts_tot  ties
+0  2003  New England Patriots    14  ...          11.3      -136.51   NaN
+1  2003        Miami Dolphins    10  ...          17.2      -177.92   NaN
+2  2003         Buffalo Bills     6  ...          17.6      -230.07   NaN
+3  2003         New York Jets     6  ...          11.8      -107.89   NaN
+4  2003      Baltimore Ravens    10  ...          16.6      -220.50   NaN
+
+[5 rows x 35 columns]
+2025-12-03 00:42:59,527 - Backend.app - INFO - Data loaded successfully. Shape: (672, 35)
+2025-12-03 00:42:59,527 - Backend.app - DEBUG - Available columns: ['year', 'team', 'wins', 'losses', 'win_loss_perc', 'points', 'points_opp', 'points_diff', 'mov', 'g']...
+2025-12-03 00:42:59,527 - Backend.app - DEBUG - Found potential team columns: ['team']
+2025-12-03 00:42:59,527 - Backend.app - DEBUG - Attempting to match team abbreviation 'NE' in columns: ['team']
+2025-12-03 00:42:59,527 - Backend.app - DEBUG - Possible team name matches for NE: ['New England Patriots', 'Patriots', 'NE']
+2025-12-03 00:42:59,528 - Backend.app - INFO - Found exact match for 'NE' as 'New England Patriots' in column team: 21 rows
+2025-12-03 00:42:59,528 - Backend.app - INFO - Team NE stats (averaged over 21 seasons): {'points_diff': 129.76190476190476, 'mov': 8.536363636363637, 'total_yards': 5894.523809523809, 'turnovers': 19.047619047619047, 'score_pct': 40.790476190476184, 'turnover_pct': 9.928571428571429, 'exp_pts_tot': 48.92476190476191}
+2025-12-03 00:42:59,528 - Backend.app - INFO - Team 2 stats retrieved: {'points_diff': 129.76190476190476, 'mov': 8.536363636363637, 'total_yards': 5894.523809523809, 'turnovers': 19.047619047619047, 'score_pct': 40.790476190476184, 'turnover_pct': 9.928571428571429, 'exp_pts_tot': 48.92476190476191}
+2025-12-03 00:42:59,528 - Backend.app - INFO - Calculating matchup features...
+2025-12-03 00:42:59,528 - Backend.app - INFO - Matchup features calculated: {'points_diff': -96.51190476190476, 'mov': -3.086363636363637, 'total_yards': -149.89880952380918, 'turnovers': -3.7023809523809526, 'score_pct': -2.5279761904761813, 'turnover_pct': -1.7964285714285708, 'exp_pts_tot': -0.4335119047619145}
+2025-12-03 00:42:59,528 - Backend.app - INFO - Calling predict_from_features...
+2025-12-03 00:42:59,528 - Backend.model - INFO - [predict_from_features] Starting prediction...
+2025-12-03 00:42:59,528 - Backend.model - INFO - Input features: {'points_diff': -96.51190476190476, 'mov': -3.086363636363637, 'total_yards': -149.89880952380918, 'turnovers': -3.7023809523809526, 'score_pct': -2.5279761904761813, 'turnover_pct': -1.7964285714285708, 'exp_pts_tot': -0.4335119047619145}
+2025-12-03 00:42:59,529 - Backend.model - INFO - [load_model] Attempting to load model from /Users/maheenrassell/GDG-Project/Backend/win_loss_model.pkl
+2025-12-03 00:42:59,529 - Backend.model - INFO - Loading model from disk...
+2025-12-03 00:42:59,532 - Backend.model - INFO - Model loaded successfully
+2025-12-03 00:42:59,532 - Backend.model - INFO - Model type: <class 'sklearn.pipeline.Pipeline'>
+2025-12-03 00:42:59,532 - Backend.model - DEBUG - Model loaded for prediction
+2025-12-03 00:42:59,532 - Backend.model - DEBUG - Ordered features array: [-96.51190476190476, -3.086363636363637, -149.89880952380918, -3.7023809523809526, -2.5279761904761813, -1.7964285714285708, -0.4335119047619145]
+2025-12-03 00:42:59,532 - Backend.model - DEBUG - Feature matrix shape: (1, 7)
+2025-12-03 00:42:59,532 - Backend.model - DEBUG - Feature matrix: [[ -96.51190476   -3.08636364 -149.89880952   -3.70238095   -2.52797619
+    -1.79642857   -0.4335119 ]]
+2025-12-03 00:42:59,532 - Backend.model - INFO - Running model prediction...
+2025-12-03 00:42:59,534 - Backend.model - DEBUG - Raw prediction probabilities: [[0.35002958 0.64997042]]
+2025-12-03 00:42:59,534 - Backend.model - INFO - Win probability: 0.6500
+2025-12-03 00:42:59,534 - Backend.app - INFO - Team 1 (LAR) win probability: 0.6500
+2025-12-03 00:42:59,534 - Backend.app - INFO - Team 2 (NE) win probability: 0.3500
+2025-12-03 00:42:59,534 - Backend.app - INFO - Predicted winner: LAR
+2025-12-03 00:42:59,534 - Backend.app - INFO - ==================================================
+2025-12-03 00:42:59,534 - Backend.app - INFO - PREDICTION COMPLETE
+2025-12-03 00:42:59,535 - Backend.app - INFO - Result: {'winner': 'LAR', 'team1_win_probability': 0.649970415855316, 'team2_win_probability': 0.350029584144684, 'team1_stats': {'points_diff': 33.25, 'mov': 5.45, 'total_yards': 5744.625, 'turnovers': 22.75, 'score_pct': 38.2625, 'turnover_pct': 11.725, 'exp_pts_tot': 48.491249999999994}, 'team2_stats': {'points_diff': 129.76190476190476, 'mov': 8.536363636363637, 'total_yards': 5894.523809523809, 'turnovers': 19.047619047619047, 'score_pct': 40.790476190476184, 'turnover_pct': 9.928571428571429, 'exp_pts_tot': 48.92476190476191}, 'matchup_features': {'points_diff': -96.51190476190476, 'mov': -3.086363636363637, 'total_yards': -149.89880952380918, 'turnovers': -3.7023809523809526, 'score_pct': -2.5279761904761813, 'turnover_pct': -1.7964285714285708, 'exp_pts_tot': -0.4335119047619145}, 'feature_comparisons': {'points_diff': {'team1': 33.25, 'team2': 129.76190476190476, 'advantage': 'NE'}, 'mov': {'team1': 5.45, 'team2': 8.536363636363637, 'advantage': 'NE'}, 'total_yards': {'team1': 5744.625, 'team2': 5894.523809523809, 'advantage': 'NE'}, 'turnovers': {'team1': 22.75, 'team2': 19.047619047619047, 'advantage': 'NE'}, 'score_pct': {'team1': 38.2625, 'team2': 40.790476190476184, 'advantage': 'NE'}, 'turnover_pct': {'team1': 11.725, 'team2': 9.928571428571429, 'advantage': 'NE'}, 'exp_pts_tot': {'team1': 48.491249999999994, 'team2': 48.92476190476191, 'advantage': 'NE'}}}
+2025-12-03 00:42:59,535 - Backend.app - INFO - ==================================================
+2025-12-03 00:43:11,081 - Backend.app - INFO - ==================================================
+2025-12-03 00:43:11,081 - Backend.app - INFO - POST /predict-matchup - Matchup prediction requested
+2025-12-03 00:43:11,081 - Backend.app - INFO - Team 1: LAR
+2025-12-03 00:43:11,082 - Backend.app - INFO - Team 2: HOU
+2025-12-03 00:43:11,082 - Backend.app - INFO - ==================================================
+2025-12-03 00:43:11,082 - Backend.app - INFO - Fetching stats for Team 1...
+2025-12-03 00:43:11,082 - Backend.app - INFO - [get_team_stats_from_data] Looking up stats for team: LAR
+2025-12-03 00:43:11,082 - Backend.app - DEBUG - Loading raw data...
+2025-12-03 00:43:11,082 - Backend.data_utils - INFO - [load_raw_data] Loading data from /Users/maheenrassell/GDG-Project/Backend/archive.zip
+2025-12-03 00:43:11,082 - Backend.data_utils - INFO - Archive file exists: /Users/maheenrassell/GDG-Project/Backend/archive.zip
+2025-12-03 00:43:11,083 - Backend.data_utils - INFO - Found 1 CSV file(s) in archive: ['team_stats_2003_2023.csv']
+2025-12-03 00:43:11,083 - Backend.data_utils - INFO - Loading CSV: team_stats_2003_2023.csv
+2025-12-03 00:43:11,092 - Backend.data_utils - INFO - Data loaded successfully. Shape: (672, 35)
+2025-12-03 00:43:11,093 - Backend.data_utils - DEBUG - Columns: ['year', 'team', 'wins', 'losses', 'win_loss_perc', 'points', 'points_opp', 'points_diff', 'mov', 'g', 'total_yards', 'plays_offense', 'yds_per_play_offense', 'turnovers', 'fumbles_lost', 'first_down', 'pass_cmp', 'pass_att', 'pass_yds', 'pass_td', 'pass_int', 'pass_net_yds_per_att', 'pass_fd', 'rush_att', 'rush_yds', 'rush_td', 'rush_yds_per_att', 'rush_fd', 'penalties', 'penalties_yds', 'pen_fd', 'score_pct', 'turnover_pct', 'exp_pts_tot', 'ties']
+2025-12-03 00:43:11,113 - Backend.data_utils - DEBUG - First few rows:
+   year                  team  wins  ...  turnover_pct  exp_pts_tot  ties
+0  2003  New England Patriots    14  ...          11.3      -136.51   NaN
+1  2003        Miami Dolphins    10  ...          17.2      -177.92   NaN
+2  2003         Buffalo Bills     6  ...          17.6      -230.07   NaN
+3  2003         New York Jets     6  ...          11.8      -107.89   NaN
+4  2003      Baltimore Ravens    10  ...          16.6      -220.50   NaN
+
+[5 rows x 35 columns]
+2025-12-03 00:43:11,113 - Backend.app - INFO - Data loaded successfully. Shape: (672, 35)
+2025-12-03 00:43:11,113 - Backend.app - DEBUG - Available columns: ['year', 'team', 'wins', 'losses', 'win_loss_perc', 'points', 'points_opp', 'points_diff', 'mov', 'g']...
+2025-12-03 00:43:11,113 - Backend.app - DEBUG - Found potential team columns: ['team']
+2025-12-03 00:43:11,114 - Backend.app - DEBUG - Attempting to match team abbreviation 'LAR' in columns: ['team']
+2025-12-03 00:43:11,114 - Backend.app - DEBUG - Possible team name matches for LAR: ['Los Angeles Rams', 'St. Louis Rams', 'Rams', 'LAR']
+2025-12-03 00:43:11,115 - Backend.app - INFO - Found exact match for 'LAR' as 'Los Angeles Rams' in column team: 8 rows
+2025-12-03 00:43:11,115 - Backend.app - INFO - Team LAR stats (averaged over 8 seasons): {'points_diff': 33.25, 'mov': 5.45, 'total_yards': 5744.625, 'turnovers': 22.75, 'score_pct': 38.2625, 'turnover_pct': 11.725, 'exp_pts_tot': 48.491249999999994}
+2025-12-03 00:43:11,115 - Backend.app - INFO - Team 1 stats retrieved: {'points_diff': 33.25, 'mov': 5.45, 'total_yards': 5744.625, 'turnovers': 22.75, 'score_pct': 38.2625, 'turnover_pct': 11.725, 'exp_pts_tot': 48.491249999999994}
+2025-12-03 00:43:11,115 - Backend.app - INFO - Fetching stats for Team 2...
+2025-12-03 00:43:11,116 - Backend.app - INFO - [get_team_stats_from_data] Looking up stats for team: HOU
+2025-12-03 00:43:11,116 - Backend.app - DEBUG - Loading raw data...
+2025-12-03 00:43:11,116 - Backend.data_utils - INFO - [load_raw_data] Loading data from /Users/maheenrassell/GDG-Project/Backend/archive.zip
+2025-12-03 00:43:11,116 - Backend.data_utils - INFO - Archive file exists: /Users/maheenrassell/GDG-Project/Backend/archive.zip
+2025-12-03 00:43:11,116 - Backend.data_utils - INFO - Found 1 CSV file(s) in archive: ['team_stats_2003_2023.csv']
+2025-12-03 00:43:11,116 - Backend.data_utils - INFO - Loading CSV: team_stats_2003_2023.csv
+2025-12-03 00:43:11,120 - Backend.data_utils - INFO - Data loaded successfully. Shape: (672, 35)
+2025-12-03 00:43:11,120 - Backend.data_utils - DEBUG - Columns: ['year', 'team', 'wins', 'losses', 'win_loss_perc', 'points', 'points_opp', 'points_diff', 'mov', 'g', 'total_yards', 'plays_offense', 'yds_per_play_offense', 'turnovers', 'fumbles_lost', 'first_down', 'pass_cmp', 'pass_att', 'pass_yds', 'pass_td', 'pass_int', 'pass_net_yds_per_att', 'pass_fd', 'rush_att', 'rush_yds', 'rush_td', 'rush_yds_per_att', 'rush_fd', 'penalties', 'penalties_yds', 'pen_fd', 'score_pct', 'turnover_pct', 'exp_pts_tot', 'ties']
+2025-12-03 00:43:11,132 - Backend.data_utils - DEBUG - First few rows:
+   year                  team  wins  ...  turnover_pct  exp_pts_tot  ties
+0  2003  New England Patriots    14  ...          11.3      -136.51   NaN
+1  2003        Miami Dolphins    10  ...          17.2      -177.92   NaN
+2  2003         Buffalo Bills     6  ...          17.6      -230.07   NaN
+3  2003         New York Jets     6  ...          11.8      -107.89   NaN
+4  2003      Baltimore Ravens    10  ...          16.6      -220.50   NaN
+
+[5 rows x 35 columns]
+2025-12-03 00:43:11,132 - Backend.app - INFO - Data loaded successfully. Shape: (672, 35)
+2025-12-03 00:43:11,132 - Backend.app - DEBUG - Available columns: ['year', 'team', 'wins', 'losses', 'win_loss_perc', 'points', 'points_opp', 'points_diff', 'mov', 'g']...
+2025-12-03 00:43:11,132 - Backend.app - DEBUG - Found potential team columns: ['team']
+2025-12-03 00:43:11,132 - Backend.app - DEBUG - Attempting to match team abbreviation 'HOU' in columns: ['team']
+2025-12-03 00:43:11,132 - Backend.app - DEBUG - Possible team name matches for HOU: ['Houston Texans', 'Texans', 'HOU']
+2025-12-03 00:43:11,133 - Backend.app - INFO - Found exact match for 'HOU' as 'Houston Texans' in column team: 21 rows
+2025-12-03 00:43:11,133 - Backend.app - INFO - Team HOU stats (averaged over 21 seasons): {'points_diff': -35.23809523809524, 'mov': -2.0454545454545454, 'total_yards': 5398.809523809524, 'turnovers': 23.761904761904763, 'score_pct': 32.87142857142857, 'turnover_pct': 12.395238095238096, 'exp_pts_tot': -44.85047619047619}
+2025-12-03 00:43:11,133 - Backend.app - INFO - Team 2 stats retrieved: {'points_diff': -35.23809523809524, 'mov': -2.0454545454545454, 'total_yards': 5398.809523809524, 'turnovers': 23.761904761904763, 'score_pct': 32.87142857142857, 'turnover_pct': 12.395238095238096, 'exp_pts_tot': -44.85047619047619}
+2025-12-03 00:43:11,133 - Backend.app - INFO - Calculating matchup features...
+2025-12-03 00:43:11,133 - Backend.app - INFO - Matchup features calculated: {'points_diff': 68.48809523809524, 'mov': 7.495454545454546, 'total_yards': 345.81547619047615, 'turnovers': 1.0119047619047628, 'score_pct': 5.391071428571436, 'turnover_pct': 0.670238095238096, 'exp_pts_tot': 93.34172619047618}
+2025-12-03 00:43:11,133 - Backend.app - INFO - Calling predict_from_features...
+2025-12-03 00:43:11,133 - Backend.model - INFO - [predict_from_features] Starting prediction...
+2025-12-03 00:43:11,133 - Backend.model - INFO - Input features: {'points_diff': 68.48809523809524, 'mov': 7.495454545454546, 'total_yards': 345.81547619047615, 'turnovers': 1.0119047619047628, 'score_pct': 5.391071428571436, 'turnover_pct': 0.670238095238096, 'exp_pts_tot': 93.34172619047618}
+2025-12-03 00:43:11,134 - Backend.model - INFO - [load_model] Attempting to load model from /Users/maheenrassell/GDG-Project/Backend/win_loss_model.pkl
+2025-12-03 00:43:11,134 - Backend.model - INFO - Loading model from disk...
+2025-12-03 00:43:11,135 - Backend.model - INFO - Model loaded successfully
+2025-12-03 00:43:11,135 - Backend.model - INFO - Model type: <class 'sklearn.pipeline.Pipeline'>
+2025-12-03 00:43:11,135 - Backend.model - DEBUG - Model loaded for prediction
+2025-12-03 00:43:11,135 - Backend.model - DEBUG - Ordered features array: [68.48809523809524, 7.495454545454546, 345.81547619047615, 1.0119047619047628, 5.391071428571436, 0.670238095238096, 93.34172619047618]
+2025-12-03 00:43:11,135 - Backend.model - DEBUG - Feature matrix shape: (1, 7)
+2025-12-03 00:43:11,135 - Backend.model - DEBUG - Feature matrix: [[ 68.48809524   7.49545455 345.81547619   1.01190476   5.39107143
+    0.6702381   93.34172619]]
+2025-12-03 00:43:11,135 - Backend.model - INFO - Running model prediction...
+2025-12-03 00:43:11,135 - Backend.model - DEBUG - Raw prediction probabilities: [[0.00139075 0.99860925]]
+2025-12-03 00:43:11,135 - Backend.model - INFO - Win probability: 0.9986
+2025-12-03 00:43:11,135 - Backend.app - INFO - Team 1 (LAR) win probability: 0.9986
+2025-12-03 00:43:11,135 - Backend.app - INFO - Team 2 (HOU) win probability: 0.0014
+2025-12-03 00:43:11,136 - Backend.app - INFO - Predicted winner: LAR
+2025-12-03 00:43:11,136 - Backend.app - INFO - ==================================================
+2025-12-03 00:43:11,136 - Backend.app - INFO - PREDICTION COMPLETE
+2025-12-03 00:43:11,136 - Backend.app - INFO - Result: {'winner': 'LAR', 'team1_win_probability': 0.9986092487447794, 'team2_win_probability': 0.0013907512552205903, 'team1_stats': {'points_diff': 33.25, 'mov': 5.45, 'total_yards': 5744.625, 'turnovers': 22.75, 'score_pct': 38.2625, 'turnover_pct': 11.725, 'exp_pts_tot': 48.491249999999994}, 'team2_stats': {'points_diff': -35.23809523809524, 'mov': -2.0454545454545454, 'total_yards': 5398.809523809524, 'turnovers': 23.761904761904763, 'score_pct': 32.87142857142857, 'turnover_pct': 12.395238095238096, 'exp_pts_tot': -44.85047619047619}, 'matchup_features': {'points_diff': 68.48809523809524, 'mov': 7.495454545454546, 'total_yards': 345.81547619047615, 'turnovers': 1.0119047619047628, 'score_pct': 5.391071428571436, 'turnover_pct': 0.670238095238096, 'exp_pts_tot': 93.34172619047618}, 'feature_comparisons': {'points_diff': {'team1': 33.25, 'team2': -35.23809523809524, 'advantage': 'LAR'}, 'mov': {'team1': 5.45, 'team2': -2.0454545454545454, 'advantage': 'LAR'}, 'total_yards': {'team1': 5744.625, 'team2': 5398.809523809524, 'advantage': 'LAR'}, 'turnovers': {'team1': 22.75, 'team2': 23.761904761904763, 'advantage': 'LAR'}, 'score_pct': {'team1': 38.2625, 'team2': 32.87142857142857, 'advantage': 'LAR'}, 'turnover_pct': {'team1': 11.725, 'team2': 12.395238095238096, 'advantage': 'LAR'}, 'exp_pts_tot': {'team1': 48.491249999999994, 'team2': -44.85047619047619, 'advantage': 'LAR'}}}
+2025-12-03 00:43:11,136 - Backend.app - INFO - ==================================================
+2025-12-03 00:43:18,729 - Backend.app - INFO - ==================================================
+2025-12-03 00:43:18,729 - Backend.app - INFO - POST /predict-matchup - Matchup prediction requested
+2025-12-03 00:43:18,729 - Backend.app - INFO - Team 1: LAR
+2025-12-03 00:43:18,729 - Backend.app - INFO - Team 2: CIN
+2025-12-03 00:43:18,729 - Backend.app - INFO - ==================================================
+2025-12-03 00:43:18,729 - Backend.app - INFO - Fetching stats for Team 1...
+2025-12-03 00:43:18,729 - Backend.app - INFO - [get_team_stats_from_data] Looking up stats for team: LAR
+2025-12-03 00:43:18,729 - Backend.app - DEBUG - Loading raw data...
+2025-12-03 00:43:18,729 - Backend.data_utils - INFO - [load_raw_data] Loading data from /Users/maheenrassell/GDG-Project/Backend/archive.zip
+2025-12-03 00:43:18,729 - Backend.data_utils - INFO - Archive file exists: /Users/maheenrassell/GDG-Project/Backend/archive.zip
+2025-12-03 00:43:18,730 - Backend.data_utils - INFO - Found 1 CSV file(s) in archive: ['team_stats_2003_2023.csv']
+2025-12-03 00:43:18,730 - Backend.data_utils - INFO - Loading CSV: team_stats_2003_2023.csv
+2025-12-03 00:43:18,737 - Backend.data_utils - INFO - Data loaded successfully. Shape: (672, 35)
+2025-12-03 00:43:18,737 - Backend.data_utils - DEBUG - Columns: ['year', 'team', 'wins', 'losses', 'win_loss_perc', 'points', 'points_opp', 'points_diff', 'mov', 'g', 'total_yards', 'plays_offense', 'yds_per_play_offense', 'turnovers', 'fumbles_lost', 'first_down', 'pass_cmp', 'pass_att', 'pass_yds', 'pass_td', 'pass_int', 'pass_net_yds_per_att', 'pass_fd', 'rush_att', 'rush_yds', 'rush_td', 'rush_yds_per_att', 'rush_fd', 'penalties', 'penalties_yds', 'pen_fd', 'score_pct', 'turnover_pct', 'exp_pts_tot', 'ties']
+2025-12-03 00:43:18,759 - Backend.data_utils - DEBUG - First few rows:
+   year                  team  wins  ...  turnover_pct  exp_pts_tot  ties
+0  2003  New England Patriots    14  ...          11.3      -136.51   NaN
+1  2003        Miami Dolphins    10  ...          17.2      -177.92   NaN
+2  2003         Buffalo Bills     6  ...          17.6      -230.07   NaN
+3  2003         New York Jets     6  ...          11.8      -107.89   NaN
+4  2003      Baltimore Ravens    10  ...          16.6      -220.50   NaN
+
+[5 rows x 35 columns]
+2025-12-03 00:43:18,759 - Backend.app - INFO - Data loaded successfully. Shape: (672, 35)
+2025-12-03 00:43:18,759 - Backend.app - DEBUG - Available columns: ['year', 'team', 'wins', 'losses', 'win_loss_perc', 'points', 'points_opp', 'points_diff', 'mov', 'g']...
+2025-12-03 00:43:18,759 - Backend.app - DEBUG - Found potential team columns: ['team']
+2025-12-03 00:43:18,760 - Backend.app - DEBUG - Attempting to match team abbreviation 'LAR' in columns: ['team']
+2025-12-03 00:43:18,760 - Backend.app - DEBUG - Possible team name matches for LAR: ['Los Angeles Rams', 'St. Louis Rams', 'Rams', 'LAR']
+2025-12-03 00:43:18,761 - Backend.app - INFO - Found exact match for 'LAR' as 'Los Angeles Rams' in column team: 8 rows
+2025-12-03 00:43:18,761 - Backend.app - INFO - Team LAR stats (averaged over 8 seasons): {'points_diff': 33.25, 'mov': 5.45, 'total_yards': 5744.625, 'turnovers': 22.75, 'score_pct': 38.2625, 'turnover_pct': 11.725, 'exp_pts_tot': 48.491249999999994}
+2025-12-03 00:43:18,762 - Backend.app - INFO - Team 1 stats retrieved: {'points_diff': 33.25, 'mov': 5.45, 'total_yards': 5744.625, 'turnovers': 22.75, 'score_pct': 38.2625, 'turnover_pct': 11.725, 'exp_pts_tot': 48.491249999999994}
+2025-12-03 00:43:18,762 - Backend.app - INFO - Fetching stats for Team 2...
+2025-12-03 00:43:18,762 - Backend.app - INFO - [get_team_stats_from_data] Looking up stats for team: CIN
+2025-12-03 00:43:18,762 - Backend.app - DEBUG - Loading raw data...
+2025-12-03 00:43:18,762 - Backend.data_utils - INFO - [load_raw_data] Loading data from /Users/maheenrassell/GDG-Project/Backend/archive.zip
+2025-12-03 00:43:18,762 - Backend.data_utils - INFO - Archive file exists: /Users/maheenrassell/GDG-Project/Backend/archive.zip
+2025-12-03 00:43:18,762 - Backend.data_utils - INFO - Found 1 CSV file(s) in archive: ['team_stats_2003_2023.csv']
+2025-12-03 00:43:18,762 - Backend.data_utils - INFO - Loading CSV: team_stats_2003_2023.csv
+2025-12-03 00:43:18,766 - Backend.data_utils - INFO - Data loaded successfully. Shape: (672, 35)
+2025-12-03 00:43:18,766 - Backend.data_utils - DEBUG - Columns: ['year', 'team', 'wins', 'losses', 'win_loss_perc', 'points', 'points_opp', 'points_diff', 'mov', 'g', 'total_yards', 'plays_offense', 'yds_per_play_offense', 'turnovers', 'fumbles_lost', 'first_down', 'pass_cmp', 'pass_att', 'pass_yds', 'pass_td', 'pass_int', 'pass_net_yds_per_att', 'pass_fd', 'rush_att', 'rush_yds', 'rush_td', 'rush_yds_per_att', 'rush_fd', 'penalties', 'penalties_yds', 'pen_fd', 'score_pct', 'turnover_pct', 'exp_pts_tot', 'ties']
+2025-12-03 00:43:18,779 - Backend.data_utils - DEBUG - First few rows:
+   year                  team  wins  ...  turnover_pct  exp_pts_tot  ties
+0  2003  New England Patriots    14  ...          11.3      -136.51   NaN
+1  2003        Miami Dolphins    10  ...          17.2      -177.92   NaN
+2  2003         Buffalo Bills     6  ...          17.6      -230.07   NaN
+3  2003         New York Jets     6  ...          11.8      -107.89   NaN
+4  2003      Baltimore Ravens    10  ...          16.6      -220.50   NaN
+
+[5 rows x 35 columns]
+2025-12-03 00:43:18,779 - Backend.app - INFO - Data loaded successfully. Shape: (672, 35)
+2025-12-03 00:43:18,779 - Backend.app - DEBUG - Available columns: ['year', 'team', 'wins', 'losses', 'win_loss_perc', 'points', 'points_opp', 'points_diff', 'mov', 'g']...
+2025-12-03 00:43:18,779 - Backend.app - DEBUG - Found potential team columns: ['team']
+2025-12-03 00:43:18,779 - Backend.app - DEBUG - Attempting to match team abbreviation 'CIN' in columns: ['team']
+2025-12-03 00:43:18,779 - Backend.app - DEBUG - Possible team name matches for CIN: ['Cincinnati Bengals', 'Bengals', 'CIN']
+2025-12-03 00:43:18,780 - Backend.app - INFO - Found exact match for 'CIN' as 'Cincinnati Bengals' in column team: 21 rows
+2025-12-03 00:43:18,781 - Backend.app - INFO - Team CIN stats (averaged over 21 seasons): {'points_diff': 0.14285714285714285, 'mov': 0.5454545454545454, 'total_yards': 5324.238095238095, 'turnovers': 23.80952380952381, 'score_pct': 34.042857142857144, 'turnover_pct': 12.095238095238095, 'exp_pts_tot': -39.852857142857154}
+2025-12-03 00:43:18,781 - Backend.app - INFO - Team 2 stats retrieved: {'points_diff': 0.14285714285714285, 'mov': 0.5454545454545454, 'total_yards': 5324.238095238095, 'turnovers': 23.80952380952381, 'score_pct': 34.042857142857144, 'turnover_pct': 12.095238095238095, 'exp_pts_tot': -39.852857142857154}
+2025-12-03 00:43:18,781 - Backend.app - INFO - Calculating matchup features...
+2025-12-03 00:43:18,781 - Backend.app - INFO - Matchup features calculated: {'points_diff': 33.107142857142854, 'mov': 4.904545454545454, 'total_yards': 420.3869047619046, 'turnovers': 1.0595238095238102, 'score_pct': 4.219642857142858, 'turnover_pct': 0.37023809523809526, 'exp_pts_tot': 88.34410714285715}
+2025-12-03 00:43:18,781 - Backend.app - INFO - Calling predict_from_features...
+2025-12-03 00:43:18,781 - Backend.model - INFO - [predict_from_features] Starting prediction...
+2025-12-03 00:43:18,781 - Backend.model - INFO - Input features: {'points_diff': 33.107142857142854, 'mov': 4.904545454545454, 'total_yards': 420.3869047619046, 'turnovers': 1.0595238095238102, 'score_pct': 4.219642857142858, 'turnover_pct': 0.37023809523809526, 'exp_pts_tot': 88.34410714285715}
+2025-12-03 00:43:18,781 - Backend.model - INFO - [load_model] Attempting to load model from /Users/maheenrassell/GDG-Project/Backend/win_loss_model.pkl
+2025-12-03 00:43:18,781 - Backend.model - INFO - Loading model from disk...
+2025-12-03 00:43:18,782 - Backend.model - INFO - Model loaded successfully
+2025-12-03 00:43:18,782 - Backend.model - INFO - Model type: <class 'sklearn.pipeline.Pipeline'>
+2025-12-03 00:43:18,782 - Backend.model - DEBUG - Model loaded for prediction
+2025-12-03 00:43:18,782 - Backend.model - DEBUG - Ordered features array: [33.107142857142854, 4.904545454545454, 420.3869047619046, 1.0595238095238102, 4.219642857142858, 0.37023809523809526, 88.34410714285715]
+2025-12-03 00:43:18,782 - Backend.model - DEBUG - Feature matrix shape: (1, 7)
+2025-12-03 00:43:18,782 - Backend.model - DEBUG - Feature matrix: [[3.31071429e+01 4.90454545e+00 4.20386905e+02 1.05952381e+00
+  4.21964286e+00 3.70238095e-01 8.83441071e+01]]
+2025-12-03 00:43:18,782 - Backend.model - INFO - Running model prediction...
+2025-12-03 00:43:18,783 - Backend.model - DEBUG - Raw prediction probabilities: [[0.00700104 0.99299896]]
+2025-12-03 00:43:18,783 - Backend.model - INFO - Win probability: 0.9930
+2025-12-03 00:43:18,783 - Backend.app - INFO - Team 1 (LAR) win probability: 0.9930
+2025-12-03 00:43:18,783 - Backend.app - INFO - Team 2 (CIN) win probability: 0.0070
+2025-12-03 00:43:18,783 - Backend.app - INFO - Predicted winner: LAR
+2025-12-03 00:43:18,783 - Backend.app - INFO - ==================================================
+2025-12-03 00:43:18,783 - Backend.app - INFO - PREDICTION COMPLETE
+2025-12-03 00:43:18,783 - Backend.app - INFO - Result: {'winner': 'LAR', 'team1_win_probability': 0.9929989601196462, 'team2_win_probability': 0.007001039880353832, 'team1_stats': {'points_diff': 33.25, 'mov': 5.45, 'total_yards': 5744.625, 'turnovers': 22.75, 'score_pct': 38.2625, 'turnover_pct': 11.725, 'exp_pts_tot': 48.491249999999994}, 'team2_stats': {'points_diff': 0.14285714285714285, 'mov': 0.5454545454545454, 'total_yards': 5324.238095238095, 'turnovers': 23.80952380952381, 'score_pct': 34.042857142857144, 'turnover_pct': 12.095238095238095, 'exp_pts_tot': -39.852857142857154}, 'matchup_features': {'points_diff': 33.107142857142854, 'mov': 4.904545454545454, 'total_yards': 420.3869047619046, 'turnovers': 1.0595238095238102, 'score_pct': 4.219642857142858, 'turnover_pct': 0.37023809523809526, 'exp_pts_tot': 88.34410714285715}, 'feature_comparisons': {'points_diff': {'team1': 33.25, 'team2': 0.14285714285714285, 'advantage': 'LAR'}, 'mov': {'team1': 5.45, 'team2': 0.5454545454545454, 'advantage': 'LAR'}, 'total_yards': {'team1': 5744.625, 'team2': 5324.238095238095, 'advantage': 'LAR'}, 'turnovers': {'team1': 22.75, 'team2': 23.80952380952381, 'advantage': 'LAR'}, 'score_pct': {'team1': 38.2625, 'team2': 34.042857142857144, 'advantage': 'LAR'}, 'turnover_pct': {'team1': 11.725, 'team2': 12.095238095238095, 'advantage': 'LAR'}, 'exp_pts_tot': {'team1': 48.491249999999994, 'team2': -39.852857142857154, 'advantage': 'LAR'}}}
+2025-12-03 00:43:18,783 - Backend.app - INFO - ==================================================
+2025-12-03 00:43:25,013 - Backend.app - INFO - ==================================================
+2025-12-03 00:43:25,014 - Backend.app - INFO - POST /predict-matchup - Matchup prediction requested
+2025-12-03 00:43:25,014 - Backend.app - INFO - Team 1: LAR
+2025-12-03 00:43:25,014 - Backend.app - INFO - Team 2: DAL
+2025-12-03 00:43:25,014 - Backend.app - INFO - ==================================================
+2025-12-03 00:43:25,014 - Backend.app - INFO - Fetching stats for Team 1...
+2025-12-03 00:43:25,014 - Backend.app - INFO - [get_team_stats_from_data] Looking up stats for team: LAR
+2025-12-03 00:43:25,014 - Backend.app - DEBUG - Loading raw data...
+2025-12-03 00:43:25,015 - Backend.data_utils - INFO - [load_raw_data] Loading data from /Users/maheenrassell/GDG-Project/Backend/archive.zip
+2025-12-03 00:43:25,015 - Backend.data_utils - INFO - Archive file exists: /Users/maheenrassell/GDG-Project/Backend/archive.zip
+2025-12-03 00:43:25,015 - Backend.data_utils - INFO - Found 1 CSV file(s) in archive: ['team_stats_2003_2023.csv']
+2025-12-03 00:43:25,016 - Backend.data_utils - INFO - Loading CSV: team_stats_2003_2023.csv
+2025-12-03 00:43:25,023 - Backend.data_utils - INFO - Data loaded successfully. Shape: (672, 35)
+2025-12-03 00:43:25,023 - Backend.data_utils - DEBUG - Columns: ['year', 'team', 'wins', 'losses', 'win_loss_perc', 'points', 'points_opp', 'points_diff', 'mov', 'g', 'total_yards', 'plays_offense', 'yds_per_play_offense', 'turnovers', 'fumbles_lost', 'first_down', 'pass_cmp', 'pass_att', 'pass_yds', 'pass_td', 'pass_int', 'pass_net_yds_per_att', 'pass_fd', 'rush_att', 'rush_yds', 'rush_td', 'rush_yds_per_att', 'rush_fd', 'penalties', 'penalties_yds', 'pen_fd', 'score_pct', 'turnover_pct', 'exp_pts_tot', 'ties']
+2025-12-03 00:43:25,044 - Backend.data_utils - DEBUG - First few rows:
+   year                  team  wins  ...  turnover_pct  exp_pts_tot  ties
+0  2003  New England Patriots    14  ...          11.3      -136.51   NaN
+1  2003        Miami Dolphins    10  ...          17.2      -177.92   NaN
+2  2003         Buffalo Bills     6  ...          17.6      -230.07   NaN
+3  2003         New York Jets     6  ...          11.8      -107.89   NaN
+4  2003      Baltimore Ravens    10  ...          16.6      -220.50   NaN
+
+[5 rows x 35 columns]
+2025-12-03 00:43:25,044 - Backend.app - INFO - Data loaded successfully. Shape: (672, 35)
+2025-12-03 00:43:25,044 - Backend.app - DEBUG - Available columns: ['year', 'team', 'wins', 'losses', 'win_loss_perc', 'points', 'points_opp', 'points_diff', 'mov', 'g']...
+2025-12-03 00:43:25,044 - Backend.app - DEBUG - Found potential team columns: ['team']
+2025-12-03 00:43:25,044 - Backend.app - DEBUG - Attempting to match team abbreviation 'LAR' in columns: ['team']
+2025-12-03 00:43:25,044 - Backend.app - DEBUG - Possible team name matches for LAR: ['Los Angeles Rams', 'St. Louis Rams', 'Rams', 'LAR']
+2025-12-03 00:43:25,045 - Backend.app - INFO - Found exact match for 'LAR' as 'Los Angeles Rams' in column team: 8 rows
+2025-12-03 00:43:25,046 - Backend.app - INFO - Team LAR stats (averaged over 8 seasons): {'points_diff': 33.25, 'mov': 5.45, 'total_yards': 5744.625, 'turnovers': 22.75, 'score_pct': 38.2625, 'turnover_pct': 11.725, 'exp_pts_tot': 48.491249999999994}
+2025-12-03 00:43:25,046 - Backend.app - INFO - Team 1 stats retrieved: {'points_diff': 33.25, 'mov': 5.45, 'total_yards': 5744.625, 'turnovers': 22.75, 'score_pct': 38.2625, 'turnover_pct': 11.725, 'exp_pts_tot': 48.491249999999994}
+2025-12-03 00:43:25,046 - Backend.app - INFO - Fetching stats for Team 2...
+2025-12-03 00:43:25,046 - Backend.app - INFO - [get_team_stats_from_data] Looking up stats for team: DAL
+2025-12-03 00:43:25,046 - Backend.app - DEBUG - Loading raw data...
+2025-12-03 00:43:25,046 - Backend.data_utils - INFO - [load_raw_data] Loading data from /Users/maheenrassell/GDG-Project/Backend/archive.zip
+2025-12-03 00:43:25,046 - Backend.data_utils - INFO - Archive file exists: /Users/maheenrassell/GDG-Project/Backend/archive.zip
+2025-12-03 00:43:25,047 - Backend.data_utils - INFO - Found 1 CSV file(s) in archive: ['team_stats_2003_2023.csv']
+2025-12-03 00:43:25,047 - Backend.data_utils - INFO - Loading CSV: team_stats_2003_2023.csv
+2025-12-03 00:43:25,050 - Backend.data_utils - INFO - Data loaded successfully. Shape: (672, 35)
+2025-12-03 00:43:25,050 - Backend.data_utils - DEBUG - Columns: ['year', 'team', 'wins', 'losses', 'win_loss_perc', 'points', 'points_opp', 'points_diff', 'mov', 'g', 'total_yards', 'plays_offense', 'yds_per_play_offense', 'turnovers', 'fumbles_lost', 'first_down', 'pass_cmp', 'pass_att', 'pass_yds', 'pass_td', 'pass_int', 'pass_net_yds_per_att', 'pass_fd', 'rush_att', 'rush_yds', 'rush_td', 'rush_yds_per_att', 'rush_fd', 'penalties', 'penalties_yds', 'pen_fd', 'score_pct', 'turnover_pct', 'exp_pts_tot', 'ties']
+2025-12-03 00:43:25,064 - Backend.data_utils - DEBUG - First few rows:
+   year                  team  wins  ...  turnover_pct  exp_pts_tot  ties
+0  2003  New England Patriots    14  ...          11.3      -136.51   NaN
+1  2003        Miami Dolphins    10  ...          17.2      -177.92   NaN
+2  2003         Buffalo Bills     6  ...          17.6      -230.07   NaN
+3  2003         New York Jets     6  ...          11.8      -107.89   NaN
+4  2003      Baltimore Ravens    10  ...          16.6      -220.50   NaN
+
+[5 rows x 35 columns]
+2025-12-03 00:43:25,064 - Backend.app - INFO - Data loaded successfully. Shape: (672, 35)
+2025-12-03 00:43:25,064 - Backend.app - DEBUG - Available columns: ['year', 'team', 'wins', 'losses', 'win_loss_perc', 'points', 'points_opp', 'points_diff', 'mov', 'g']...
+2025-12-03 00:43:25,064 - Backend.app - DEBUG - Found potential team columns: ['team']
+2025-12-03 00:43:25,064 - Backend.app - DEBUG - Attempting to match team abbreviation 'DAL' in columns: ['team']
+2025-12-03 00:43:25,064 - Backend.app - DEBUG - Possible team name matches for DAL: ['Dallas Cowboys', 'Cowboys', 'DAL']
+2025-12-03 00:43:25,065 - Backend.app - INFO - Found exact match for 'DAL' as 'Dallas Cowboys' in column team: 21 rows
+2025-12-03 00:43:25,066 - Backend.app - INFO - Team DAL stats (averaged over 21 seasons): {'points_diff': 43.04761904761905, 'mov': 1.9090909090909092, 'total_yards': 5849.238095238095, 'turnovers': 24.666666666666668, 'score_pct': 37.65238095238095, 'turnover_pct': 12.776190476190477, 'exp_pts_tot': 8.597619047619052}
+2025-12-03 00:43:25,066 - Backend.app - INFO - Team 2 stats retrieved: {'points_diff': 43.04761904761905, 'mov': 1.9090909090909092, 'total_yards': 5849.238095238095, 'turnovers': 24.666666666666668, 'score_pct': 37.65238095238095, 'turnover_pct': 12.776190476190477, 'exp_pts_tot': 8.597619047619052}
+2025-12-03 00:43:25,066 - Backend.app - INFO - Calculating matchup features...
+2025-12-03 00:43:25,066 - Backend.app - INFO - Matchup features calculated: {'points_diff': -9.797619047619051, 'mov': 3.540909090909091, 'total_yards': -104.61309523809541, 'turnovers': 1.9166666666666679, 'score_pct': 0.610119047619051, 'turnover_pct': 1.0511904761904773, 'exp_pts_tot': 39.893630952380946}
+2025-12-03 00:43:25,066 - Backend.app - INFO - Calling predict_from_features...
+2025-12-03 00:43:25,066 - Backend.model - INFO - [predict_from_features] Starting prediction...
+2025-12-03 00:43:25,066 - Backend.model - INFO - Input features: {'points_diff': -9.797619047619051, 'mov': 3.540909090909091, 'total_yards': -104.61309523809541, 'turnovers': 1.9166666666666679, 'score_pct': 0.610119047619051, 'turnover_pct': 1.0511904761904773, 'exp_pts_tot': 39.893630952380946}
+2025-12-03 00:43:25,066 - Backend.model - INFO - [load_model] Attempting to load model from /Users/maheenrassell/GDG-Project/Backend/win_loss_model.pkl
+2025-12-03 00:43:25,066 - Backend.model - INFO - Loading model from disk...
+2025-12-03 00:43:25,067 - Backend.model - INFO - Model loaded successfully
+2025-12-03 00:43:25,067 - Backend.model - INFO - Model type: <class 'sklearn.pipeline.Pipeline'>
+2025-12-03 00:43:25,067 - Backend.model - DEBUG - Model loaded for prediction
+2025-12-03 00:43:25,067 - Backend.model - DEBUG - Ordered features array: [-9.797619047619051, 3.540909090909091, -104.61309523809541, 1.9166666666666679, 0.610119047619051, 1.0511904761904773, 39.893630952380946]
+2025-12-03 00:43:25,067 - Backend.model - DEBUG - Feature matrix shape: (1, 7)
+2025-12-03 00:43:25,067 - Backend.model - DEBUG - Feature matrix: [[  -9.79761905    3.54090909 -104.61309524    1.91666667    0.61011905
+     1.05119048   39.89363095]]
+2025-12-03 00:43:25,067 - Backend.model - INFO - Running model prediction...
+2025-12-03 00:43:25,068 - Backend.model - DEBUG - Raw prediction probabilities: [[0.02386363 0.97613637]]
+2025-12-03 00:43:25,068 - Backend.model - INFO - Win probability: 0.9761
+2025-12-03 00:43:25,068 - Backend.app - INFO - Team 1 (LAR) win probability: 0.9761
+2025-12-03 00:43:25,068 - Backend.app - INFO - Team 2 (DAL) win probability: 0.0239
+2025-12-03 00:43:25,068 - Backend.app - INFO - Predicted winner: LAR
+2025-12-03 00:43:25,068 - Backend.app - INFO - ==================================================
+2025-12-03 00:43:25,068 - Backend.app - INFO - PREDICTION COMPLETE
+2025-12-03 00:43:25,068 - Backend.app - INFO - Result: {'winner': 'LAR', 'team1_win_probability': 0.9761363675289753, 'team2_win_probability': 0.023863632471024743, 'team1_stats': {'points_diff': 33.25, 'mov': 5.45, 'total_yards': 5744.625, 'turnovers': 22.75, 'score_pct': 38.2625, 'turnover_pct': 11.725, 'exp_pts_tot': 48.491249999999994}, 'team2_stats': {'points_diff': 43.04761904761905, 'mov': 1.9090909090909092, 'total_yards': 5849.238095238095, 'turnovers': 24.666666666666668, 'score_pct': 37.65238095238095, 'turnover_pct': 12.776190476190477, 'exp_pts_tot': 8.597619047619052}, 'matchup_features': {'points_diff': -9.797619047619051, 'mov': 3.540909090909091, 'total_yards': -104.61309523809541, 'turnovers': 1.9166666666666679, 'score_pct': 0.610119047619051, 'turnover_pct': 1.0511904761904773, 'exp_pts_tot': 39.893630952380946}, 'feature_comparisons': {'points_diff': {'team1': 33.25, 'team2': 43.04761904761905, 'advantage': 'DAL'}, 'mov': {'team1': 5.45, 'team2': 1.9090909090909092, 'advantage': 'LAR'}, 'total_yards': {'team1': 5744.625, 'team2': 5849.238095238095, 'advantage': 'DAL'}, 'turnovers': {'team1': 22.75, 'team2': 24.666666666666668, 'advantage': 'LAR'}, 'score_pct': {'team1': 38.2625, 'team2': 37.65238095238095, 'advantage': 'LAR'}, 'turnover_pct': {'team1': 11.725, 'team2': 12.776190476190477, 'advantage': 'LAR'}, 'exp_pts_tot': {'team1': 48.491249999999994, 'team2': 8.597619047619052, 'advantage': 'LAR'}}}
+2025-12-03 00:43:25,068 - Backend.app - INFO - ==================================================
