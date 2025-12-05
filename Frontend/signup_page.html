@@ -25,12 +25,12 @@
     <section id="auth" class="auth-wrapper">
       <div class="auth-card">
         <p class="eyebrow">Sports Analytics</p>
-        <h1 class="auth-title">Log in to <span class="accent">Wagerly</span></h1>
+        <h1 class="auth-title">Sign Up for <span class="accent">Wagerly</span></h1>
         <p class="auth-subtitle">
           Access your analytics dashboard with your registered email and password.
         </p>
 
-        <form id="login-form" class="auth-form">
+        <form id="signup-form" class="auth-form">
           <div class="auth-field">
             <label for="auth-email">Email</label>
             <input
@@ -53,14 +53,14 @@
             />
           </div>
 
-          <button type="submit" class="btn-primary btn-full">Log in</button>
+          <button type="submit" class="btn-primary btn-full"> Sign Up</button>
         </form>
 
         <p id="auth-error" class="auth-error"></p>
 
         <p class="auth-hint">
-          Don’t have access yet?&nbsp;
-          <a href="signup_page.html">Sign Up Here</a>.
+          Already have an account?&nbsp;
+          <a href="login_page.html">Login Here</a>.
         </p>
       </div>
     </section>
@@ -77,18 +77,6 @@
         </nav>
       </header>
 
-      <section id="login" class="section auth-section">
-        <h2>Login</h2>
-        <form class="login-form" action="/login" method="POST">
-          <label for="username">Username</label>
-          <input type="text" id="username" name="username" required />
-
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" required />
-
-          <button type="submit" class="btn-primary">Login</button>
-        </form>
-      </section>
 
       <section id="signup" class="section auth-section">
         <h2>Sign Up</h2>
@@ -117,11 +105,7 @@
     <p>© <span id="year"></span> GDG Collab Group.</p>
   </footer>
 
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
-
-    <script type="module">
+  <script type="module">
     import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/esm/supabase.js";
 
     // 1) Init Supabase client (PUT YOUR VALUES HERE)
@@ -129,12 +113,15 @@
     const supabaseKey = "YOUR_PUBLIC_ANON_KEY";
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    const loginForm = document.getElementById("login-form");
+    // Keep footer year working
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const signupForm = document.getElementById("signup-form");
     const errorEl = document.getElementById("auth-error");
 
-    // 2) Handle login submit
-    if (loginForm) {
-      loginForm.addEventListener("submit", async (e) => {
+    // 2) Handle signup submit
+    if (signupForm) {
+      signupForm.addEventListener("submit", async (e) => {
         e.preventDefault();
         errorEl.textContent = "";
 
@@ -142,18 +129,20 @@
         const password = document.getElementById("auth-password").value;
 
         try {
-          const { data, error } = await supabase.auth.signInWithPassword({
+          const { data, error } = await supabase.auth.signUp({
             email,
             password,
           });
 
           if (error) {
             console.error(error);
-            errorEl.textContent = error.message || "Login failed. Please try again.";
+            errorEl.textContent = error.message || "Sign up failed. Please try again.";
             return;
           }
 
-          // 3) Login success → go to predict page
+          // If your Supabase project doesn't require email confirmation
+          // data.session will be non-null and user is logged in right away.
+          // Either way, for now we redirect on successful sign-up:
           window.location.href = "predict.html";
         } catch (err) {
           console.error(err);
@@ -162,7 +151,7 @@
       });
     }
 
-    // 4) Optional: if already logged in, skip straight to predict.html
+    // 3) Optional: if already logged in, skip straight to predict.html
     (async () => {
       const { data } = await supabase.auth.getSession();
       if (data.session) {

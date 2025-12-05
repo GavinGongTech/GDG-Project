@@ -55,7 +55,7 @@
     </div>
 
     <button class="predict-btn" id="predictBtn">PREDICT WINNER</button>
-
+    
     <!-- Result -->
     <div class="result-container" id="result" style="display: none;">
       <h2 class="result-title">WINNER</h2>
@@ -69,7 +69,6 @@
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
-
     const teams = [
       { abbr: 'ARI', name: 'Arizona Cardinals' },
       { abbr: 'ATL', name: 'Atlanta Falcons' },
@@ -124,6 +123,7 @@
       card.addEventListener('click', () => selectTeam(team, card));
       grid.appendChild(card);
     });
+
 
     function selectTeam(team, card) {
       // Check if clicking on already selected team (deselect)
@@ -219,6 +219,24 @@
         resultDiv.classList.add('show');
       }, 500);
     });
+
+        // Click on team name (TEAM 1) → go to team page
+    const fighter1NameEl = document.getElementById('fighter1-name');
+    const fighter2NameEl = document.getElementById('fighter2-name');
+
+    fighter1NameEl.addEventListener('click', () => {
+      if (selectedTeam1) {
+        window.location.href = `team_page.html?team=${selectedTeam1.abbr}`;
+      }
+    });
+
+    // Click on team name (TEAM 2) → go to team page
+    fighter2NameEl.addEventListener('click', () => {
+      if (selectedTeam2) {
+        window.location.href = `team_page.html?team=${selectedTeam2.abbr}`;
+      }
+    });
+
   </script>
 </body>
 </html>

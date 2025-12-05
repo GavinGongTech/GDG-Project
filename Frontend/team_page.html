@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WAGERLY - Team Page</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="topbar">
+    <div class="logo"><a href="landing_page.html">Wagerly</a></div>
+    <nav>
+      <a href="landing_page.html">Home</a>
+      <a href="landing_page.html#about">About</a>
+      <a href="landing_page.html#contact" class="btn-nav">Contact</a>
+    </nav>
+  </header>
+
+  <main class="team-main">
+    <h1 class="team-title">
+      <span id="team-abbr-heading" class="team-abbr-pill"></span>
+      <span class="team-title-text">Team Overview</span>
+    </h1>
+
+    <div class="team-layout-card">
+      <section class="team-hero">
+        <div class="team-logo-wrapper">
+          <!-- Clickable logo → official team site -->
+          <a id="team-official-link" href="#" target="_blank" rel="noopener noreferrer">
+            <img id="team-logo" alt="Team logo" />
+          </a>
+          <span class="team-official-label">Official Site</span>
+        </div>
+        <div class="team-hero-info">
+          <h2 id="team-name" class="team-name-heading"></h2>
+          <p id="team-meta" class="team-meta"></p>
+          <p id="team-tagline" class="team-tagline"></p>
+        </div>
+      </section>
+
+      <section class="team-content-grid">
+        <article class="team-card">
+          <h3>Team Snapshot</h3>
+          <p id="team-description"></p>
+        </article>
+
+        <article class="team-card">
+          <h3>Recent Performance</h3>
+          <p id="team-performance"></p>
+          <ul id="team-last-games" class="last-games-list"></ul>
+        </article>
+      </section>
+    </div>
+
+    <div class="team-actions">
+      <a href="predict.html" class="predict-btn team-back-btn">← Back to Predictor</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> GDG Collab Group.</p>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Basic data – you can expand this for all 32 teams.
+    const teamsInfo = {
+      KC: {
+        abbr: "KC",
+        name: "Kansas City Chiefs",
+        city: "Kansas City, Missouri",
+        conference: "AFC",
+        division: "West",
+        tagline: "High-powered offense with championship pedigree.",
+        description:
+          "The Kansas City Chiefs are known for their explosive offense, creative play-calling, and strong playoff presence in recent years. Led by a dynamic quarterback and an aggressive coaching philosophy, they’ve become one of the most feared teams in the league.",
+        performanceSummary:
+          "Recently, the Chiefs have consistently posted winning records, frequently reaching the playoffs and contending deep into the postseason.",
+        lastGames: [
+          "W – vs. Division Rival",
+          "W – @ Conference Opponent",
+          "L – Tight game decided in the 4th quarter",
+          "W – Strong offensive showing",
+          "W – Defense forced multiple turnovers"
+        ],
+        officialUrl: "https://www.chiefs.com/"
+      },
+      PHI: {
+        abbr: "PHI",
+        name: "Philadelphia Eagles",
+        city: "Philadelphia, Pennsylvania",
+        conference: "NFC",
+        division: "East",
+        tagline: "Physical football with a mobile QB at the centerpiece.",
+        description:
+          "The Philadelphia Eagles are built around a tough offensive line, mobile quarterback play, and a physical defense. They’ve been regular contenders in the NFC, with recent deep playoff runs and a balanced offensive attack.",
+        performanceSummary:
+          "The Eagles have recently been in the mix at the top of the NFC, stringing together strong regular seasons and competitive postseason appearances.",
+        lastGames: [
+          "L – Close divisional matchup",
+          "W – Statement win in prime time",
+          "W – Strong rushing performance",
+          "W – Defense held opponent under 20 points",
+          "L – Late-game comeback fell just short"
+        ],
+        officialUrl: "https://www.philadelphiaeagles.com/"
+      },
+      DAL: {
+        abbr: "DAL",
+        name: "Dallas Cowboys",
+        city: "Arlington, Texas",
+        conference: "NFC",
+        division: "East",
+        tagline: "Explosive offense backed by a playmaking defense.",
+        description:
+          "The Dallas Cowboys combine a high-scoring offense with an opportunistic defense that generates sacks and turnovers. With a massive fan base and high expectations every season, they are always a prominent storyline in the league.",
+        performanceSummary:
+          "In recent seasons, the Cowboys have regularly finished with winning records and have remained in the playoff hunt, especially on the strength of their home performances.",
+        lastGames: [
+          "W – Offensive shootout",
+          "W – Defense recorded multiple sacks",
+          "L – Tough road loss",
+          "W – Comfortable double-digit win",
+          "W – Special teams contributed a key play"
+        ],
+        officialUrl: "https://www.dallascowboys.com/"
+      }
+    };
+
+    // Read ?team=KC from URL; default to KC if not provided.
+    const params = new URLSearchParams(window.location.search);
+    const teamAbbr = (params.get("team") || "KC").toUpperCase();
+    const team = teamsInfo[teamAbbr] || {
+      abbr: teamAbbr,
+      name: "Unknown Team",
+      city: "",
+      conference: "",
+      division: "",
+      tagline: "Team details coming soon.",
+      description:
+        "We don’t have a full description for this team yet. Check back later as we add more data.",
+      performanceSummary:
+        "Recent performance data will be added soon once we integrate full stats.",
+      lastGames: [],
+      officialUrl: null
+    };
+
+    // Fill heading + logo
+    document.getElementById("team-abbr-heading").textContent = team.abbr;
+    const logoEl = document.getElementById("team-logo");
+    const linkEl = document.getElementById("team-official-link");
+
+    logoEl.src = `https://a.espncdn.com/i/teamlogos/nfl/500/${team.abbr.toLowerCase()}.png`;
+    logoEl.alt = team.name + " logo";
+
+    // Set official site link if available
+    if (team.officialUrl) {
+      linkEl.href = team.officialUrl;
+      linkEl.style.pointerEvents = "auto";
+      linkEl.style.opacity = "1";
+      linkEl.title = `Go to official ${team.name} site`;
+    } else {
+      // Fallback: disable link if we don't have a URL
+      linkEl.href = "#";
+      linkEl.style.pointerEvents = "none";
+      linkEl.style.opacity = "0.6";
+      linkEl.title = "Official site not available";
+    }
+
+    // Basic info
+    document.getElementById("team-name").textContent = team.name;
+    document.getElementById("team-meta").textContent = [
+      team.city,
+      team.conference && team.division
+        ? `${team.conference} – ${team.division} Division`
+        : ""
+    ]
+      .filter(Boolean)
+      .join(" • ");
+    document.getElementById("team-tagline").textContent = team.tagline;
+
+    // Description
+    document.getElementById("team-description").textContent = team.description;
+
+    // Performance summary
+    document.getElementById("team-performance").textContent =
+      team.performanceSummary;
+
+    // Last games list
+    const lastGamesList = document.getElementById("team-last-games");
+    lastGamesList.innerHTML = "";
+    if (team.lastGames && team.lastGames.length > 0) {
+      team.lastGames.forEach((g) => {
+        const li = document.createElement("li");
+        li.textContent = g;
+        lastGamesList.appendChild(li);
+      });
+    } else {
+      const li = document.createElement("li");
+      li.textContent = "Last games data not available yet.";
+      lastGamesList.appendChild(li);
+    }
+  </script>
+</body>
+</html>
